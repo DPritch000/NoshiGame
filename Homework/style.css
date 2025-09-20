@@ -1,0 +1,19 @@
+body{
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: rgb(134, 171, 209);
+    color: rgb(24, 24, 24);
+}
+form{
+    text-align: center;
+    font-size: large;
+}
+nav{
+    
+    text-align: center;
+    font-size: large;
+    
+    background-color: rgba(36, 83, 129, 0.384);
+    color: rgb(216, 216, 216);
+    float: left;
+}

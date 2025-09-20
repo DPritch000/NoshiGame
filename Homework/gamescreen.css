@@ -1,0 +1,16 @@
+body{
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: rgb(134, 171, 209);
+    color: rgb(24, 24, 24);
+}
+
+nav{
+    float: left;
+    text-align: center;
+    list-style-position: inside;
+    font-size: large;
+    
+    background-color: rgba(86, 131, 175, 0.288);
+    color: rgb(24, 24, 24);
+}

@@ -1,0 +1,2 @@
+I was thinking of making some type of simple browser game, where users can login and play and see their highscore compared to othere users. Maybe a friends list or something like that 
+will make the social aspect more meaningful.
