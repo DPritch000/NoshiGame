@@ -1,6 +1,7 @@
 import Player from "./Player.js";
 import Ground from "./Ground.js"; 
 import HydrantController from "./HydrantController.js";
+import Sky from "./Sky.js";
 
 //From what I can gather so far, if I need to make a game loop for a litle
 //game I would probably do that here.
@@ -39,8 +40,11 @@ const MIN_JUMP_HEIGHT = 150;
 const GROUND_WIDTH = 200;
 const GROUND_HEIGHT = 200;
 const GROUND_AND_HYDRANT_SPEED = 0.5;
+const SKY_WIDTH = 200;
+const SKY_HEIGHT = 200;
+const SKY_SPEED = 0.1;
 
-const HYDRANT_CONFIG = [{width: 34, height:  34, image: "./Images/Sprites/Fire Hydrant.png"}];
+const HYDRANT_CONFIG = [{width: 34/1.5, height:  34/1.5, image: "./Images/Sprites/Fire Hydrant.png"}];
 
 
 //game objects
@@ -48,9 +52,12 @@ let player = null;
 
 let scaleRatio = null;
 let previousTime = null;
+let sky = null;
 let ground = null;
 let gameSpeed = gameSpeedStart;
 let hydrantController = null;
+let gameOver = false;
+let hasAddedEventListenerForRestart = false;
 
 function createSprites(){
     const playerWidthInGAME = Player_Width * scaleRatio;
@@ -61,8 +68,17 @@ function createSprites(){
     const groundWidthInGAME = GROUND_WIDTH * scaleRatio;
     const groundHeightInGAME = GROUND_HEIGHT * scaleRatio;
 
-    
+    const skyWidthInGAME = SKY_WIDTH * scaleRatio;
+    const skyHeightInGAME = SKY_HEIGHT * scaleRatio;
 
+    
+    sky = new Sky(
+        ctx,
+        skyWidthInGAME,
+        skyHeightInGAME,
+        SKY_SPEED,
+        scaleRatio
+    )
 
 
     player = new Player(
@@ -129,6 +145,35 @@ else{
 }}
 
 //game loop
+function showGameOver(){
+     const fontSize = 70 * scaleRatio;
+  ctx.font = `${fontSize}px 'Segoe UI'`;
+  ctx.fillStyle = "black";
+  const x = canvas.width / 4.5;
+  const y = canvas.height / 2;
+  ctx.fillText("GAME OVER", x, y); 
+}
+function setUpGameReset(){
+    if(!hasAddedEventListenerForRestart){
+        hasAddedEventListenerForRestart = true;
+
+        setTimeout(() =>{
+
+        window.addEventListener("keyup", reset, {once:true});
+        window.addEventListener("keyup", reset, {once:true});
+    } ,1000);
+}
+}
+
+function reset(){
+    hasAddedEventListenerForRestart = false;
+    gameOver = false;
+    ground.reset();
+    sky.reset();
+    hydrantController.reset();
+    gameSpeed = gameSpeedStart;
+}
+
 function clearScreen(){
     ctx.fillStyle = "white";
     ctx.fillRect(0,0,canvas.width,canvas.height);
@@ -147,16 +192,32 @@ function gameLoop(currentTime){
 
     clearScreen();
 
+    if(!gameOver){
     //update game objects
+    sky.update(gameSpeed,frameTimeDelta);
     ground.update(gameSpeed,frameTimeDelta);
     hydrantController.update(gameSpeed,frameTimeDelta);
     player.update(gameSpeed,frameTimeDelta);
+    }
 
+    if(!gameOver&& hydrantController.collideWith(player)){
+        gameOver = true;
+        setUpGameReset();
+    }
     //draw game objects
     
+    sky.draw();
     ground.draw();
     hydrantController.draw();
     player.draw();
+
+    if(gameOver){
+        showGameOver();
+    }
+
+
+
+
     requestAnimationFrame(gameLoop);
 }
 

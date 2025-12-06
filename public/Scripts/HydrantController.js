@@ -18,6 +18,9 @@ export default class HydrantConrtroller{
 }   
     setNextHydrantInterval(){
         const num = this.getRandomNumber(this.HYDRANT_INTERVAL_MIN, this.HYDRANT_INTERVAL_MAX);
+    
+        this.nextHydrantInterval = num;
+        //console.log("Next Hydrant In: " + this.nextHydrantInterval);
         
     }
     getRandomNumber(min, max){
@@ -27,15 +30,22 @@ export default class HydrantConrtroller{
         //update hydrant positions
         if(this.nextHydrantInterval <=0){
             //create new hydrant
-            this.createHydrant
+            this.createHydrant();
             this.setNextHydrantInterval();
+            
         }
         this.nextHydrantInterval -= FrameTimeDelta;
+        
         
         this.hydrants.forEach((hydrant) =>{
             hydrant.update(this.speed,gameSpeed,FrameTimeDelta,this.scaleRatio);
 
-    });}
+    });
+
+    this.hydrant = this.hydrants.filter((hydrant) => hydrant.x > -hydrant.width);
+
+
+}
     draw(){
         //draw hydrants
         this.hydrants.forEach((hydrant) =>{
@@ -47,7 +57,7 @@ export default class HydrantConrtroller{
         const index = this.getRandomNumber(0, this.hydrantImages.length -1);
         const hydrantImage = this.hydrantImages[index];
         const x = this.canvas.width*1.5;
-        const y = this.canvas.height - hydrantImage.height;
+        const y = this.canvas.height - hydrantImage.height-(15* this.scaleRatio);
         const hydrant = new Hydrant(
             this.ctx,
             x,
@@ -58,6 +68,12 @@ export default class HydrantConrtroller{
             
         );
         this.hydrants.push(hydrant);
+       
     }
-     
-}
+    collideWith(sprite){
+     return this.hydrants.some((hydrant) => hydrant.collideWith(sprite));
+    }
+    reset(){
+        this.hydrants = [];
+    }}
+ 

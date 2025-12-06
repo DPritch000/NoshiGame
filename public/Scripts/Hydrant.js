@@ -1,5 +1,5 @@
 export default class Hydrant{
-    constiructor(ctx, x, y, width, height, image){
+    constructor(ctx, x, y, width, height, image){
         this.ctx = ctx;
         this.x = x;
         this.y = y;
@@ -12,5 +12,17 @@ export default class Hydrant{
     }
     draw(){
         this.ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+    }
+    collideWith(sprite){
+        const adjustBy = 2;
+        if(sprite.x < this.x + this.width/adjustBy &&
+           sprite.x + sprite.width/adjustBy > this.x &&
+           sprite.y < this.y + this.height/adjustBy &&
+           sprite.y + sprite.height/adjustBy > this.y){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }
