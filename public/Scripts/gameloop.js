@@ -2,6 +2,7 @@ import Player from "./Player.js";
 import Ground from "./Ground.js"; 
 import HydrantController from "./HydrantController.js";
 import Sky from "./Sky.js";
+import Score from "./Score.js";
 
 //From what I can gather so far, if I need to make a game loop for a litle
 //game I would probably do that here.
@@ -49,6 +50,7 @@ const HYDRANT_CONFIG = [{width: 34/1.5, height:  34/1.5, image: "./Images/Sprite
 
 //game objects
 let player = null;
+let score = null;
 
 let scaleRatio = null;
 let previousTime = null;
@@ -58,6 +60,7 @@ let gameSpeed = gameSpeedStart;
 let hydrantController = null;
 let gameOver = false;
 let hasAddedEventListenerForRestart = false;
+let waitingToStart = true;
 
 function createSprites(){
     const playerWidthInGAME = Player_Width * scaleRatio;
@@ -108,7 +111,12 @@ function createSprites(){
         hydrantImages,
         scaleRatio,
         GROUND_AND_HYDRANT_SPEED
-    )
+    );
+
+    score = new Score(
+        ctx,
+        scaleRatio
+    );
 }
 
 function setScreen(){
@@ -172,6 +180,19 @@ function reset(){
     sky.reset();
     hydrantController.reset();
     gameSpeed = gameSpeedStart;
+    waitingToStart = false;
+    score.reset();
+}
+function showStartGameText(){
+    const fontSize = 40 * scaleRatio;
+  ctx.font = `${fontSize}px 'Segoe UI' `;
+  ctx.fillStyle = "black";
+  const x = canvas.width / 14;
+  const y = canvas.height / 2;
+  ctx.fillText("Tap Screen or Press Space To Start", x, y);
+}
+function updateGameSpeed(FrameTimeDelta){
+    gameSpeed += gameSpeedIncrement * FrameTimeDelta;
 }
 
 function clearScreen(){
@@ -192,17 +213,20 @@ function gameLoop(currentTime){
 
     clearScreen();
 
-    if(!gameOver){
+    if(!gameOver && !waitingToStart){
     //update game objects
     sky.update(gameSpeed,frameTimeDelta);
     ground.update(gameSpeed,frameTimeDelta);
     hydrantController.update(gameSpeed,frameTimeDelta);
     player.update(gameSpeed,frameTimeDelta);
+    score.update(frameTimeDelta);
+    updateGameSpeed(frameTimeDelta);
     }
 
     if(!gameOver&& hydrantController.collideWith(player)){
         gameOver = true;
         setUpGameReset();
+        score.setHighScore();
     }
     //draw game objects
     
@@ -210,9 +234,13 @@ function gameLoop(currentTime){
     ground.draw();
     hydrantController.draw();
     player.draw();
+    score.draw();
 
     if(gameOver){
         showGameOver();
+    }
+    if(waitingToStart){
+        showStartGameText();
     }
 
 
@@ -222,6 +250,9 @@ function gameLoop(currentTime){
 }
 
 requestAnimationFrame(gameLoop);
+
+window.addEventListener("keyup", reset, {once:true});
+        window.addEventListener("keyup", reset, {once:true});
 
 
 

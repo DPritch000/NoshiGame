@@ -72,7 +72,7 @@ export default class HydrantConrtroller{
     }
     collideWith(sprite){
      return this.hydrants.some((hydrant) => hydrant.collideWith(sprite));
-    }
+    } 
     reset(){
         this.hydrants = [];
     }}
