@@ -8,6 +8,7 @@ const con = mysql.createPool({
   database: process.env.MYSQL_DB
 });
 
+
 const query = (sql, binding) => {
   return new Promise((resolve, reject) => {
     con.query(sql, binding, (err, result, fields) => {
@@ -16,3 +17,8 @@ const query = (sql, binding) => {
     });
   });
 };
+
+const createQuery = "CREATE DATABASE IF NOT EXISTS my_db;";
+con.query(createQuery);
+
+module.exports = {con, query};
