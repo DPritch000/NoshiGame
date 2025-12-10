@@ -21,6 +21,7 @@ export default class Score{
         const highScore = Number(localStorage.getItem(this.HIGH_SCORE_KEY)) || 0;
         if(this.score > highScore){
             localStorage.setItem(this.HIGH_SCORE_KEY, Math.floor(this.score));
+            
         }
     }
 
@@ -41,5 +42,7 @@ export default class Score{
 
     this.ctx.fillText(scorePadded, scoreX, y);
     this.ctx.fillText(`HI ${highScorePadded}`, highScoreX, y);
-    }
+    } 
+
+
 }
