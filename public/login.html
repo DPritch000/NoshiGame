@@ -5,12 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
-    <script defer src = "./Scripts/login.js"></script>
+    <script defer type="module" src="./Scripts/main.js"></script> 
+    
 </head>
+<nav></nav>
 <body>
     <h1>Welcome! Login or Create your Account</h1>
     <h2>Login</h2>
     <form id="loginForm">
+        <p id="error"></p>
         <label for="username">Username:</label>
         <input type="text" id="username" >
         <br><br>
@@ -20,12 +23,11 @@
         <input type="submit"  id="submit">
         <br><br>
         <a href="register.html">Create Account</a>
+
+        
+
+       
     </form>
 </body>
-<nav>
-    <h2> Nav Bar</h2>
-   <a class="button" href="register.html">Create Account</a>
-   <br><br>
-   <a class="button" href="gamescreen.html">Go to Gamescreen</a>
-</nav>
+
 </html>

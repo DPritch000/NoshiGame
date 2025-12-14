@@ -5,32 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
-    <script defer src = "./Scripts/register.js" ></script>
+    <script defer type=module src = "./Scripts/register.js" ></script>
+    
 </head>
+<nav>
+    <a class="button" href="login.html">Login</a>
+</nav>
 <body>
     <h1>Fill out the form to create your account!</h1>
     <form id="registerForm">
         <label for="username">Username:</label>
         <input  type="username" id="username">
         <br><br>
-        <label for="password">Passowrd:</label>
+        <label for="name">Name:</label>
+        <input type="name" id="name">
+        <br></br>
+        <label for="password">Password:</label>
         <input type="password" id="pswd">
         <br><br>    
         <label for="passwordConfirm">Confirm Password</label>
         <input type="password"  id="confirmPswd">
-        <br><br>
-        <label for="dob">Date of Birth:</label>
-        <input type="datOfBrith" id="dob">
         <br><br>
         <input type="submit" id="submit">
         <br><br>
         <a href="login.html">Back to Login</a>
     </form>
 </body>
-<nav>
-    <h2> Nav Bar</h2>
-   <a class="button" href="login.html">Back to Login</a>
-   <br><br>
-   <a class="button" href="gamescreen.html">Go to Gamescreen</a>
-</nav>
+
 </html>

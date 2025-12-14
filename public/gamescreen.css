@@ -28,6 +28,7 @@ nav{
     box-shadow: 5px 5px 5px;
 }
 canvas{
+    margin-top: 10pxng;
  user-select: none;
         touch-action: none;
         -webkit-touch-callout: none;

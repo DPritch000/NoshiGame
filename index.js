@@ -1,5 +1,6 @@
 // specify we want to use express
 const express = require('express')
+const path = require("path")
 const app = express()
 
 app.use(express.json())
@@ -15,8 +16,10 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.use(express.static(__dirname + "/public"))
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, '/public/login.html')))
+
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => console.log(`Server started on port ${PORT}!!`))
-app.use(express.json());
 app.use('/', userRoutes);

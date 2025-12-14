@@ -121,7 +121,7 @@ function createSprites(){
 
 function setScreen(){
     scaleRatio = getScaleRatio()
-    canvas.width = GAME_WIDTH * scaleRatio;
+    canvas.width = GAME_WIDTH * scaleRatio-20;
     canvas.height = GAME_HEIGHT * scaleRatio;
     createSprites();
 }

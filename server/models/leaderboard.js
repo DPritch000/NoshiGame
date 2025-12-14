@@ -16,17 +16,17 @@ async function createTable() {
 }
 
 async function getLeaderboard() {
-  let sql = `SELECT * FROM leaderboard`;
+  let sql = `SELECT * FROM leaderboard;`;
   return con.query(sql);
 }
 
 async function changeScore(leaderboard) {
-  let sql = `UPDATE leaderboard SET score = ? WHERE leaderboard_id = ?`;
+  let sql = `UPDATE leaderboard SET score = ? WHERE leaderboard_id = ?;`;
   return con.query(sql, [leaderboard.score, leaderboard.leaderboard_id]);
 }
 
 async function deleteLeaderboard(leaderboard) {
-  let sql = `DELETE FROM leaderboard WHERE leaderboard_id = ?`;
+  let sql = `DELETE FROM leaderboard WHERE leaderboard_id = ?;`;
   return con.query(sql, [leaderboard.leaderboard_id]);
 }
 
