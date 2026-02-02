@@ -15,10 +15,26 @@ async function createTable() {
   await pool.query(sql);
 }
 
+async function getHighScore(user_id) {
+  const sql = `SELECT MAX(score) as highScore FROM leaderboard WHERE user_id = ?`;
+  const [rows] = await pool.query(sql, [user_id]);
+  return rows[0]?.highScore || 0;
+}
+
 async function leaderboardEntry(user_id, score) {
-  const sql = `INSERT INTO leaderboard (user_id, score) VALUES (?, ?)`;
-  const [result] = await pool.query(sql, [user_id, Math.floor(score)]);
-  return result;
+  const floorScore = Math.floor(score);
+  
+  // Get user's current high score
+  const currentHighScore = await getHighScore(user_id);
+  
+  // Only insert if the new score is higher than the previous high score
+  if (floorScore > currentHighScore) {
+    const sql = `INSERT INTO leaderboard (user_id, score) VALUES (?, ?)`;
+    const [result] = await pool.query(sql, [user_id, floorScore]);
+    return { ...result, newHighScore: true };
+  } else {
+    return { newHighScore: false, message: "Score did not beat high score" };
+  }
 }
 
 async function getLeaderboard() {
@@ -45,4 +61,4 @@ async function deleteLeaderboard(leaderboard_id) {
   return result;
 }
 
-module.exports = { createTable, getLeaderboard, changeScore, deleteLeaderboard, leaderboardEntry };
+module.exports = { createTable, getLeaderboard, changeScore, deleteLeaderboard, leaderboardEntry, getHighScore };

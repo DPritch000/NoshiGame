@@ -42,7 +42,9 @@ export default class Score {
         const localHighScore = Number(localStorage.getItem(key)) || 0;
 
         if (localHighScore <= 0) return;
-
+ if (this.score > highScore) {
+            localStorage.setItem(key, Math.floor(this.score));
+        
         try {
             const result = await fetchData("/lb/score", {
                 user_id: currentUser.user_id,
@@ -52,7 +54,7 @@ export default class Score {
         } catch (err) {
             console.error("Error submitting score:", err);
         }
-    }
+    }}
 
     draw() {
         const currentUser = getCurrentUser();
