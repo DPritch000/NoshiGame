@@ -5,9 +5,12 @@ const router = express.Router();
 // LOGIN
 router.post('/login', async (req, res) => {
   try {
+    console.log("Login request received:", req.body.username);
     let user = await User.login(req.body);
+    console.log("User logged in successfully:", user.username);
     res.send({ ...user, password: undefined });
   } catch (err) {
+    console.error("Login error:", err.message);
     res.status(401).send({ message: err.message });
   }
 });
@@ -15,10 +18,14 @@ router.post('/login', async (req, res) => {
 // REGISTER
 router.post('/register', async (req, res) => {
   try {
+    console.log("Register request received:", req.body);
     let user = await User.register(req.body);
+    console.log("User registered successfully:", user.username);
     res.send({ ...user, password: undefined });
   } catch (error) {
-    res.status(401).send({ message: error.message });
+    console.error("Register error:", error);
+    const errorMessage = error.message || error.toString();
+    res.status(401).send({ message: errorMessage });
   }
 });
 
