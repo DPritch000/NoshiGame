@@ -25,7 +25,8 @@ router.post('/register', async (req, res) => {
   } catch (error) {
     console.error("Register error:", error);
     const errorMessage = error.message || error.toString();
-    res.status(401).send({ message: errorMessage });
+    // send stack for debugging; remove in production
+    res.status(401).send({ message: errorMessage, stack: error.stack });
   }
 });
 
