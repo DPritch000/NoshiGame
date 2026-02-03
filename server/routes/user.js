@@ -19,6 +19,12 @@ router.post('/login', async (req, res) => {
 router.post('/register', async (req, res) => {
   try {
     console.log("Register request received:", req.body);
+    // Debug: log username type/value to catch malformed bindings
+    try {
+      console.log("Register body.username type:", typeof req.body.username, "value:", req.body.username);
+    } catch (e) {
+      console.log("Error reading req.body.username:", e);
+    }
     let user = await User.register(req.body);
     console.log("User registered successfully:", user.username);
     res.send({ ...user, password: undefined });
