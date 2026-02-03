@@ -25,19 +25,27 @@ if(validPassword(password, confirmPassword)){
     
     }
 
+    console.log("Sending register request with:", user)
+
     fetchData("/register", user, "POST")
     .then(data => {
-    if(!data.message){
-        console.log(data)
-        setCurrentUser(data)
-        // Use absolute path from root that works on all domains
-        window.location.href = "/gamescreen.html"
-    }
-})
-.catch(err => {
-    let errorSection = document.getElementById("error")
-    errorSection.innerText = err.message
-})
+        console.log("Register response:", data)
+        if(!data.message){
+            console.log("Register successful, redirecting...")
+            setCurrentUser(data)
+            // Use absolute path from root that works on all domains
+            window.location.href = "/gamescreen.html"
+        } else {
+            console.log("Register failed with message:", data.message)
+            let errorSection = document.getElementById("error")
+            errorSection.innerText = data.message
+        }
+    })
+    .catch(err => {
+        console.log("Register error:", err)
+        let errorSection = document.getElementById("error")
+        errorSection.innerText = err.message
+    })
     
 }
 

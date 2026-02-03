@@ -15,16 +15,24 @@ const user = {
     password: document.getElementById("pswd").value
 }
 
+console.log("Sending login request with:", user)
+
 fetchData("/login", user, "POST")
 .then(data => {
+    console.log("Login response:", data)
     if(!data.message){
-        console.log(data)
+        console.log("Login successful, redirecting...")
         setCurrentUser(data)
         // Use absolute path from root that works on all domains
         window.location.href = "/gamescreen.html"
+    } else {
+        console.log("Login failed with message:", data.message)
+        let errorSection = document.getElementById("error")
+        errorSection.innerText = data.message
     }
 })
 .catch(err => {
+    console.log("Login error:", err)
     let errorSection = document.getElementById("error")
     errorSection.innerText = err.message
 })
