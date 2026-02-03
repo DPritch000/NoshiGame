@@ -20,7 +20,8 @@ fetchData("/login", user, "POST")
     if(!data.message){
         console.log(data)
         setCurrentUser(data)
-        window.location.href = "gamescreen.html"
+        // Use absolute path from root that works on all domains
+        window.location.href = "/gamescreen.html"
     }
 })
 .catch(err => {
@@ -51,6 +52,6 @@ export function getCurrentUser() {
 
 export function removeCurrentUser() {
   localStorage.removeItem('user')
-  window.location.href = "login.html"
+  window.location.href = "/login.html"
 }
 
