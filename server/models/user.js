@@ -14,8 +14,6 @@ async function createTable() {
   await con.query(sql);
 }
 
-createTable();
-
 async function userExists(username) {
   let sql = `SELECT * FROM users WHERE username = ?;`;
   let result = await con.query(sql, [username]);
