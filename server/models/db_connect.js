@@ -17,7 +17,12 @@ const query = async (sql, binding = []) => {
     const [rows, fields] = await pool.query(sql, binding);
     return rows;
   } catch (err) {
-    console.error('Database query error:', err);
+    console.error('Database query error: ', err);
+    console.error('Failed SQL:', sql);
+    console.error('Bindings:', binding);
+    // Attach SQL info to error for easier debugging upstream
+    err.query = sql;
+    err.bindings = binding;
     throw err;
   }
 };
