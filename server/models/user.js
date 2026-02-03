@@ -16,6 +16,7 @@ async function createTable() {
 
 async function userExists(username) {
   let sql = `SELECT * FROM users WHERE username = ?;`;
+  console.log('userExists called with username:', username, 'type:', typeof username);
   let result = await con.query(sql, [username]);
   return result;
 }
